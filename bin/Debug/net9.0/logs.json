@@ -1,0 +1,13 @@
+[
+  {
+    "Nume": "y",
+    "Prenume": "u",
+    "SumaEth": 0.001,
+    "AdresaDestinatie": "0x6B4FC0753f08Fa88D0EC1Ec9b4785F039F6430a8",
+    "TransactionHash": "0xad558a9aeb9f5ed333acbfd9b63ffdb0c7527484b3ce5e1b8dc3aeb4cbba173e",
+    "BlockNumber": 0,
+    "GasUsed": 0,
+    "DataOra": "2026-08-03T07:51:44.0496505Z",
+    "nonce": 4
+  }
+]

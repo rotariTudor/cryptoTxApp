@@ -1,0 +1,2 @@
+C:\Users\Tudor\EthTransferApp\bin\Release\net9.0\win-x64\publish\EthTransferApp.pdb
+C:\Users\Tudor\EthTransferApp\bin\Release\net9.0\win-x64\publish\EthTransferApp.exe
