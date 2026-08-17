@@ -26,21 +26,23 @@ public class TransactionDatabase
             LastSyncedAt TEXT NOT NULL
         );
 
-        CREATE TABLE IF NOT EXISTS Transactions (
-            RequestId TEXT PRIMARY KEY,
-            TransactionHash TEXT,
-            FromAddress TEXT NOT NULL,
-            ToAddress TEXT NOT NULL,
-            ValueWei TEXT NOT NULL,
-            Nonce TEXT,
-            Status TEXT NOT NULL,
-            BlockNumber INTEGER,
-            GasUsed INTEGER,
-            Nume TEXT,
-            Prenume TEXT,
-            CreatedAt TEXT NOT NULL,
-            UpdatedAt TEXT NOT NULL
-        );";
+            CREATE TABLE IF NOT EXISTS Transactions (
+                RequestId TEXT PRIMARY KEY,
+                TransactionHash TEXT,
+                FromAddress TEXT NOT NULL,
+                ToAddress TEXT NOT NULL,
+                ValueWei TEXT NOT NULL,
+                Nonce TEXT,
+                Status TEXT NOT NULL,
+                BlockNumber INTEGER,
+                GasUsed INTEGER,
+                Nume TEXT,
+                Prenume TEXT,
+                TokenSymbol TEXT,
+                TokenContractAddress TEXT,
+                CreatedAt TEXT NOT NULL,
+                UpdatedAt TEXT NOT NULL
+            );";
         command.ExecuteNonQuery();
     }
 
@@ -86,22 +88,22 @@ public class TransactionDatabase
         return count > 0;
     }
 
-    public void InsertPendingTransaction(string requestId, string fromAddress, string toAddress, decimal amountEth, string nume, string prenume, string status)
+    public void InsertPendingTokenTransaction(string requestId, string fromAddress, string toAddress, decimal amount, string tokenSymbol, string tokenContractAddress, string status)
     {
         using var connection = new SqliteConnection(_connectionString);
         connection.Open();
         var command = connection.CreateCommand();
         command.CommandText = @"
             INSERT INTO Transactions
-            (RequestId, FromAddress, ToAddress, ValueWei, Status, Nume, Prenume, CreatedAt, UpdatedAt)
-            VALUES ($id, $from, $to, $value, $status, $nume, $prenume, $now, $now)";
+            (RequestId, FromAddress, ToAddress, ValueWei, Status, TokenSymbol, TokenContractAddress, CreatedAt, UpdatedAt)
+            VALUES ($id, $from, $to, $value, $status, $symbol, $contract, $now, $now)";
         command.Parameters.AddWithValue("$id", requestId);
         command.Parameters.AddWithValue("$from", fromAddress);
         command.Parameters.AddWithValue("$to", toAddress);
-        command.Parameters.AddWithValue("$value", Nethereum.Web3.Web3.Convert.ToWei(amountEth).ToString());
+        command.Parameters.AddWithValue("$value", amount.ToString());
         command.Parameters.AddWithValue("$status", status);
-        command.Parameters.AddWithValue("$nume", nume);
-        command.Parameters.AddWithValue("$prenume", prenume);
+        command.Parameters.AddWithValue("$symbol", tokenSymbol);
+        command.Parameters.AddWithValue("$contract", tokenContractAddress);
         command.Parameters.AddWithValue("$now", DateTime.UtcNow.ToString("o"));
         command.ExecuteNonQuery();
     }
@@ -158,15 +160,15 @@ public class TransactionDatabase
         command.ExecuteNonQuery();
     }
 
-    public List<(string RequestId, string Hash, string To, string ValueWei, string Status, string Nume, string Prenume, string CreatedAt)> GetHistory(string fromAddress)
+    public List<(string RequestId, string Hash, string To, string ValueWei, string Status, string Nume, string Prenume, string TokenSymbol, string CreatedAt)> GetHistory(string fromAddress)
     {
-        var results = new List<(string, string, string, string, string, string, string, string)>();
+        var results = new List<(string, string, string, string, string, string, string, string, string)>();
 
         using var connection = new SqliteConnection(_connectionString);
         connection.Open();
         var command = connection.CreateCommand();
         command.CommandText = @"
-            SELECT RequestId, TransactionHash, ToAddress, ValueWei, Status, Nume, Prenume, CreatedAt
+            SELECT RequestId, TransactionHash, ToAddress, ValueWei, Status, Nume, Prenume, TokenSymbol, CreatedAt
             FROM Transactions WHERE FromAddress = $addr ORDER BY CreatedAt DESC";
         command.Parameters.AddWithValue("$addr", fromAddress);
 
@@ -181,7 +183,8 @@ public class TransactionDatabase
                 reader.GetString(4),
                 reader.IsDBNull(5) ? "" : reader.GetString(5),
                 reader.IsDBNull(6) ? "" : reader.GetString(6),
-                reader.GetString(7)
+                reader.IsDBNull(7) ? "ETH" : reader.GetString(7),
+                reader.GetString(8)
             ));
         }
         return results;

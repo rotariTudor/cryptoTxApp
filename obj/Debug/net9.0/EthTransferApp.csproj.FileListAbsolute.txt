@@ -67,3 +67,4 @@ C:\Users\Tudor\EthTransferApp\obj\Debug\net9.0\refint\EthTransferApp.dll
 C:\Users\Tudor\EthTransferApp\obj\Debug\net9.0\EthTransferApp.pdb
 C:\Users\Tudor\EthTransferApp\obj\Debug\net9.0\EthTransferApp.genruntimeconfig.cache
 C:\Users\Tudor\EthTransferApp\obj\Debug\net9.0\ref\EthTransferApp.dll
+c:\Users\Tudor\EthTransferApp\obj\Debug\net9.0\EthTransferApp.sourcelink.json

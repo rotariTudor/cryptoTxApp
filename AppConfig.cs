@@ -3,7 +3,6 @@ public class TokenConfig
 {
     public string Symbol { get; set; }
     public string Address { get; set; }
-    public int Decimals { get; set; }
 }
 
 public class AppConfig

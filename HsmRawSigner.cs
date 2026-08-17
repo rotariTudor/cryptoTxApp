@@ -78,7 +78,7 @@ public class HsmRawSigner
 
     public string SignLegacyTransaction(
         BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit,
-        string to, BigInteger valueWei, BigInteger chainId, string _pin)
+        string to, BigInteger valueWei, BigInteger chainId, byte[] data, string _pin)
     {
         var tx = new LegacyTransactionChainId(
             nonce.ToBytesForRLPEncoding(),
@@ -86,7 +86,7 @@ public class HsmRawSigner
             gasLimit.ToBytesForRLPEncoding(),
             to.HexToByteArray(),
             valueWei.ToBytesForRLPEncoding(),
-            "".HexToByteArray(),
+            data ?? Array.Empty<byte>(),
             chainId.ToBytesForRLPEncoding()
         );
 
