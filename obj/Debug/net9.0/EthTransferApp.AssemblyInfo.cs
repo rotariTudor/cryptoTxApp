@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EthTransferApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8022eea689bd8b185992f455c81816e94d28e6c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+506c8dd4429e03a62bb4ababc4b1cdd2cdad9c67")]
 [assembly: System.Reflection.AssemblyProductAttribute("EthTransferApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EthTransferApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
